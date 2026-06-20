@@ -51,6 +51,25 @@
       background: #000;
     }
 
+    .video-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      width: min(92vw, 720px);
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+      text-align: center;
+      font-size: clamp(14px, 1.7vw, 20px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(8px);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+    }
+
     .cover-screen {
       background:
         radial-gradient(circle at center, rgba(255, 255, 255, 0.92), rgba(232, 225, 214, 0.96)),
@@ -187,6 +206,7 @@
         <source src="../01言辵米角刀牛開場動畫v2.mp4" type="video/mp4">
         您的瀏覽器不支援影片播放。
       </video>
+      <div class="video-hint">若開場動畫沒有自動播放，請先點一下畫面</div>
     </section>
 
     <section class="screen cover-screen" id="coverScreen" aria-label="課程封面">

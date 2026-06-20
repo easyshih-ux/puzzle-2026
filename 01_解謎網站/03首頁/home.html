@@ -107,6 +107,7 @@
       line-height:1.03;
       font-weight:1000;
       letter-spacing:.06em;
+      white-space:nowrap;
     }
     .subtitle{
       margin:12px 0 0;
@@ -223,7 +224,7 @@
       flex-wrap:wrap;
       align-items:center;
       gap:12px 18px;
-      margin-top:16px;
+      margin-top:8px;
       padding:16px 18px;
       background:#fff8dc;
       border:4px solid var(--ink);
@@ -244,6 +245,7 @@
     .notice-subtext{margin:0;font-weight:800;color:#333}
     @media (max-width: 980px){
       .title-card{width:min(64%, 680px); min-width:320px; padding:18px 20px;}
+      h1{font-size:clamp(2.2rem, 4.8vw, 4rem);}
       .hotspot{
       position:absolute;
       transform:translate(-50%,-50%);
@@ -263,6 +265,7 @@
       .board-wrap{padding:10px; border-radius:22px;}
       .board{border-radius:16px;}
       .title-card{width:min(82%, 560px); min-width:auto; padding:15px 14px; border-radius:18px;}
+      h1{white-space:normal;}
       .eyebrow{font-size:.86rem; padding:6px 12px;}
       .subtitle{font-size:1rem;}
       .hotspot{
