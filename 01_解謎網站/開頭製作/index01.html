@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>言辵米角刀牛｜任務說明</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <video id="introVideo" autoplay playsinline preload="auto">
+    <source src="../02言辵米角刀牛任務說明.mp4" type="video/mp4">
+    您的瀏覽器不支援影片播放。
+  </video>
+
+  <script>
+    const introVideo = document.getElementById("introVideo");
+    let hasRedirected = false;
+
+    function goToNextPage() {
+      if (!hasRedirected) {
+        hasRedirected = true;
+        window.location.href = "../03首頁/home.html";
+      }
+    }
+
+    introVideo.addEventListener("ended", goToNextPage);
+    
+    // 如果影片載入失敗也直接跳轉，避免卡住
+    introVideo.addEventListener("error", goToNextPage);
+
+    // 因應瀏覽器阻擋有聲影片自動播放的機制，點擊畫面可強制播放
+    window.addEventListener("pointerdown", () => {
+      if (introVideo.paused) {
+        introVideo.play().catch(() => {});
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>

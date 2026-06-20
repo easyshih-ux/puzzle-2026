@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>影片關鍵畫面檢視</title>
+  <style>
+    body { margin: 0; background: #111; color: white; font-family: sans-serif; }
+    video { display: block; width: 100vw; height: 92vh; object-fit: contain; }
+    p { margin: 0; padding: 10px 20px; font-size: 20px; }
+  </style>
+</head>
+<body>
+  <video id="video" controls preload="metadata" src="../螢幕錄製 2026-06-20 112013.mp4"></video>
+  <p id="status">讀取影片資訊中</p>
+  <script>
+    const video = document.getElementById("video");
+    const status = document.getElementById("status");
+    const requestedTime = Number(new URLSearchParams(location.search).get("t") || 0);
+    video.addEventListener("loadedmetadata", () => {
+      video.currentTime = Math.min(requestedTime, Math.max(0, video.duration - 0.1));
+      status.textContent = "時間：" + requestedTime + " 秒 / 片長：" + video.duration.toFixed(1) + " 秒";
+    });
+    video.addEventListener("seeked", () => {
+      status.textContent = "目前：" + video.currentTime.toFixed(1) + " 秒 / 片長：" + video.duration.toFixed(1) + " 秒";
+    });
+  </script>
+</body>
+</html>

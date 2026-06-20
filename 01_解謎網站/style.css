@@ -1,0 +1,291 @@
+:root {
+  --black: #101114;
+  --blue: #1465d8;
+  --red: #ed2e38;
+  --yellow: #fce475;
+  --paper: #f7f7f4;
+  --line: #d7d9dc;
+  --shadow: rgba(16, 17, 20, 0.15);
+}
+
+/* 網頁基礎設定 & 復古紙張質感 */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; min-height: 100%; width: 100%; overflow-x: hidden; }
+body {
+  color: var(--black);
+  font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  background-color: var(--paper);
+  /* 紙張格紋點狀 background */
+  background-image: radial-gradient(#10111415 1.1px, transparent 1.3px),
+                    radial-gradient(#10111409 1.1px, transparent 1.3px);
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+  position: relative;
+}
+
+/* 溫暖泛黃暗角 (Vignette) 強化沈浸感 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 55%, rgba(16, 17, 20, 0.06) 95%);
+}
+
+/* 主要容器佈局 */
+.lobby-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: clamp(24px, 4vw, 54px) max(20px, env(safe-area-inset-right)) clamp(24px, 4vw, 54px) max(20px, env(safe-area-inset-left));
+  max-width: 1440px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 頂部標題區 */
+.lobby-header {
+  text-align: center;
+  margin-bottom: clamp(20px, 3.5vh, 48px);
+}
+.main-title {
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 900;
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+  display: inline-block;
+  position: relative;
+}
+.main-title::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 5%;
+  width: 90%;
+  height: 6px;
+  background: var(--blue);
+  border-radius: 4px;
+  border: 1.5px solid var(--black);
+}
+.subtitle {
+  font-size: clamp(18px, 2.2vw, 24px);
+  color: var(--black);
+  margin: 8px 0 0;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+/* 任務大廳容器 */
+.lobby-container {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: clamp(20px, 3.5vh, 48px);
+}
+
+/* 13 個入口網格 (iPad 橫向 4-5 欄錯落分佈) */
+.lobby-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(16px, 2.2vw, 32px);
+  width: 100%;
+  max-width: 1200px;
+  justify-content: center;
+}
+
+/* 單個小組入口卡片樣式 */
+.lobby-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 4.5px solid var(--black);
+  padding: 18px 14px 16px;
+  min-height: 215px;
+  text-decoration: none;
+  color: var(--black);
+  cursor: pointer;
+  position: relative;
+  /* 手撕不規則紙邊框效果 */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  box-shadow: 8px 8px 0 var(--black);
+  transform: rotate(var(--card-rotate, 0deg));
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              box-shadow 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              border-color 0.2s ease;
+              
+  /* 交錯載入動畫 */
+  opacity: 0;
+  animation: card-fade-in 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.2) both;
+}
+
+@keyframes card-fade-in {
+  from { opacity: 0; transform: translateY(30px) rotate(var(--card-rotate, 0deg)) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) rotate(var(--card-rotate, 0deg)) scale(1); }
+}
+
+/* Hover & Tap 物理動效 */
+.lobby-card:hover, .lobby-card:focus-visible {
+  z-index: 10;
+  border-color: var(--blue);
+  /* 浮起高度增加，角度稍微偏正 */
+  transform: scale(1.06) rotate(0deg) translateY(-8px);
+  box-shadow: 12px 14px 0 var(--blue);
+  outline: none;
+}
+
+/* 不同的卡片造型點綴 */
+.lobby-card.style-door { background: #fff; }
+.lobby-card.style-file { background: #fdfdfb; }
+.lobby-card.style-note { background: #fffdf2; } /* 微黃色便條 */
+.lobby-card.style-scroll { background: #fffaf0; } /* 復古羊皮紙 */
+
+/* 圖示包覆容器 */
+.card-icon-wrapper {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.lobby-card:hover .card-icon-wrapper, .lobby-card:focus-visible .card-icon-wrapper {
+  transform: scale(1.12) rotate(4deg);
+}
+
+/* 卡片標題 */
+.card-title {
+  margin: 8px 0;
+  font-size: clamp(20px, 2.2vw, 24px);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  transition: color 0.2s ease;
+}
+.lobby-card:hover .card-title {
+  color: var(--blue);
+}
+
+/* 進入任務按鈕 (具有重力按壓感) */
+.enter-btn {
+  width: 100%;
+  min-height: 40px;
+  background: var(--red);
+  color: #fff;
+  border: 3px solid var(--black);
+  border-radius: 6px 15px 6px 12px/12px 6px 15px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 900;
+  box-shadow: 3px 3px 0 var(--black);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.lobby-card:hover .enter-btn {
+  background: var(--red);
+}
+/* 按鈕按壓效果 */
+.lobby-card:active .enter-btn {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--black);
+}
+
+/* 下方提示區 */
+.lobby-footer {
+  text-align: center;
+  border-top: 4px dashed var(--black);
+  width: 100%;
+  max-width: 800px;
+  padding-top: 20px;
+  margin-top: auto;
+}
+.warning-text {
+  font-size: clamp(18px, 2.2vw, 22px);
+  color: var(--red);
+  font-weight: 900;
+  margin: 0 0 6px;
+  letter-spacing: 0.04em;
+  display: inline-block;
+  background: var(--yellow);
+  padding: 6px 18px;
+  border: 3px solid var(--black);
+  border-radius: 120px 10px 100px 15px/15px 120px 10px 100px;
+  box-shadow: 4px 4px 0 var(--black);
+}
+.info-text {
+  font-size: 16px;
+  margin: 6px 0 0;
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+/* 響應式佈局適配 (iPad 橫向 4 欄或 5 欄) */
+@media (max-width: 1024px) {
+  .lobby-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .lobby-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .lobby-wrapper {
+    padding: 30px 16px;
+  }
+}
+@media (max-width: 520px) {
+  .lobby-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .lobby-card {
+    min-height: 185px;
+    padding: 12px 10px;
+  }
+  .card-icon-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+  .card-title {
+    font-size: 18px;
+  }
+  .enter-btn {
+    font-size: 14px;
+    min-height: 36px;
+  }
+}
+
+/* 裝飾圖釘或貼布細節 (CSS 拼貼感細節) */
+.lobby-card::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 32px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid var(--black);
+  border-radius: 2px;
+  z-index: 4;
+}
+.lobby-card:nth-child(even)::before {
+  transform: translateX(-50%) rotate(4deg);
+  background: rgba(254, 228, 117, 0.65); /* 偶數卡片為黃色膠帶 */
+}
+
+/* 無障礙減少動效 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
